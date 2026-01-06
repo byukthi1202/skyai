@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="AI Grammar Corrector - Check and correct your grammar instantly"/>
+  <meta name="description" content="AI Grammar Corrector - Grammarly-like features"/>
   <meta name="theme-color" content="#4f46e5"/>
-  <title>AI Grammar Corrector</title>
+  <title>Sky AI — Grammar Corrector</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>AI Grammar Corrector</h1>
-    <p>Paste your text below and choose a response mode and task.</p>
+    <h1>Sky AI — Grammar Corrector</h1>
+    <p>Paste your text below, choose a response mode, task, and optional AI assistance.</p>
 
     <textarea id="inputText" placeholder="Enter your text here..." autocomplete="off"></textarea>
 
     <div class="controls">
       <label for="modeSelect">Response Mode:</label>
       <select id="modeSelect" aria-label="Response mode">
-        <option value="1">1 — Professional</option>
-        <option value="2">2 — Casual</option>
-        <option value="3">3 — Student</option>
-        <option value="4">4 — Teacher</option>
-        <option value="5">5 — Creative</option>
-        <option value="6">6 — Quick Answer</option>
-        <option value="7">7 — Detailed Analysis</option>
+        <option value="1">Professional</option>
+        <option value="2">Casual</option>
+        <option value="3">Student</option>
+        <option value="4">Teacher</option>
+        <option value="5">Creative</option>
+        <option value="6">Quick Answer</option>
+        <option value="7">Detailed Analysis</option>
       </select>
 
       <label for="taskSelect">Task:</label>
@@ -34,15 +34,57 @@
         <option value="rewrite">Rewrite</option>
         <option value="explain">Explain</option>
         <option value="improve">Improve clarity</option>
-        <option value="convert">Convert (notes ↔ explanation ↔ code ↔ points)</option>
+        <option value="convert">Convert to points</option>
         <option value="analyze">Analyze deeply</option>
       </select>
+
+      <label for="toneSelect">Tone:</label>
+      <select id="toneSelect" aria-label="Tone">
+        <option value="neutral">Neutral</option>
+        <option value="formal">Formal</option>
+        <option value="casual">Casual</option>
+      </select>
+
+      <label class="aiToggle"><input type="checkbox" id="useAi"> Use AI (OpenAI)</label>
+      <button id="setApiKeyBtn" class="small">Set API Key</button>
     </div>
 
     <button id="checkGrammarBtn">Apply</button>
 
+    <div class="secondary-row">
+      <button id="suggestionsBtn" class="small">Show Suggestions</button>
+      <button id="copyBtn" class="small">Copy Result</button>
+      <button id="downloadBtn" class="small">Download .txt</button>
+      <button id="historyBtn" class="small">History</button>
+    </div>
+
     <h3>Result</h3>
     <div id="outputText" role="region" aria-live="polite"></div>
+
+    <div id="suggestionsPanel" class="panel hidden">
+      <h4>Suggestions</h4>
+      <div id="suggestionsList"></div>
+    </div>
+
+    <div id="historyPanel" class="panel hidden">
+      <h4>History</h4>
+      <ul id="historyList"></ul>
+    </div>
+
+  </div>
+
+  <!-- API key modal (simple) -->
+  <div id="apiModal" class="modal hidden">
+    <div class="modal-content">
+      <h4>OpenAI API Key (optional)</h4>
+      <p class="warning">Warning: entering an API key here will store it in your browser session only. Do not use a production key on a public machine.</p>
+      <input id="apiKeyInput" placeholder="sk-..." type="password">
+      <div class="modal-actions">
+        <button id="saveApiKey" class="small">Save</button>
+        <button id="cancelApiKey" class="small">Cancel</button>
+        <button id="clearApiKey" class="small danger">Clear</button>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
