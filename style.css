@@ -72,6 +72,27 @@ h3 {
     line-height: 1.6;
 }
 
+.controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.controls label {
+    font-size: 14px;
+    color: #444;
+}
+.controls select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background: white;
+}
+.result {
+    white-space: pre-wrap;
+}
+
 @media (max-width: 768px) {
     body {
         padding: 10px;
