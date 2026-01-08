@@ -46,22 +46,14 @@ function onApply() {
 
 function formatMode(mode, text) {
     switch (mode) {
-        case "1": // Professional
-            return `<strong>Professional:</strong><div class="result">${escapeHtml(text)}</div>`;
-        case "2": // Casual
-            return `<strong>Casual:</strong><div class="result">${escapeHtml(text)}</div>`;
-        case "3": // Student
-            return `<strong>Student:</strong><div class="result">${escapeHtml(text)}</div>`;
-        case "4": // Teacher
-            return `<strong>Teacher:</strong><div class="result">${escapeHtml(text)}</div>`;
-        case "5": // Creative
-            return `<strong>Creative:</strong><div class="result">${escapeHtml(text)}</div>`;
-        case "6": // Quick Answer
-            return `<strong>Quick Answer:</strong><div class="result">${escapeHtml(text)}</div>`;
-        case "7": // Detailed Analysis
-            return `<strong>Detailed Analysis:</strong><div class="result">${escapeHtml(text)}</div>`;
-        default:
-            return `<div class="result">${escapeHtml(text)}</div>`;
+        case "1": return `<strong>Professional:</strong><div class="result">${escapeHtml(text)}</div>`;
+        case "2": return `<strong>Casual:</strong><div class="result">${escapeHtml(text)}</div>`;
+        case "3": return `<strong>Student:</strong><div class="result">${escapeHtml(text)}</div>`;
+        case "4": return `<strong>Teacher:</strong><div class="result">${escapeHtml(text)}</div>`;
+        case "5": return `<strong>Creative:</strong><div class="result">${escapeHtml(text)}</div>`;
+        case "6": return `<strong>Quick Answer:</strong><div class="result">${escapeHtml(text)}</div>`;
+        case "7": return `<strong>Detailed Analysis:</strong><div class="result">${escapeHtml(text)}</div>`;
+        default: return `<div class="result">${escapeHtml(text)}</div>`;
     }
 }
 
@@ -79,7 +71,6 @@ function escapeHtml(unsafe) {
 
 function correctGrammar(input) {
     let corrected = input;
-
     corrected = corrected.replace(/\bi am\b/gi, "I am");
     corrected = corrected.replace(/\bhe dont\b/gi, "he doesn't");
     corrected = corrected.replace(/\bshe dont\b/gi, "she doesn't");
