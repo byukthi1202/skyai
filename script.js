@@ -45,7 +45,6 @@ function onApply() {
 /* Utilities */
 
 function formatMode(mode, text) {
-    // Small presentation change per mode to show difference (tone/length hints).
     switch (mode) {
         case "1": // Professional
             return `<strong>Professional:</strong><div class="result">${escapeHtml(text)}</div>`;
@@ -76,12 +75,11 @@ function escapeHtml(unsafe) {
       .replace(/\n/g, "<br>");
 }
 
-/* Task implementations (simple, local heuristics) */
+/* Task implementations */
 
 function correctGrammar(input) {
     let corrected = input;
 
-    // basic capitalization and common fixes
     corrected = corrected.replace(/\bi am\b/gi, "I am");
     corrected = corrected.replace(/\bhe dont\b/gi, "he doesn't");
     corrected = corrected.replace(/\bshe dont\b/gi, "she doesn't");
@@ -89,10 +87,8 @@ function correctGrammar(input) {
     corrected = corrected.replace(/\bi've\b/gi, "I've");
     corrected = corrected.replace(/\bi'll\b/gi, "I'll");
     corrected = corrected.replace(/\bi'm\b/gi, "I'm");
-    // Capitalize first letter of sentences (simple heuristic)
-    corrected = corrected.replace(/(^\s*\w|[.!?]\s*\w)/g, function(c){ return c.toUpperCase(); });
 
-    // fix common spacing issues
+    corrected = corrected.replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
     corrected = corrected.replace(/\s+([.,!?;:])/g, "$1");
     corrected = corrected.replace(/([.,!?;:])([^\s])/g, "$1 $2");
 
@@ -100,7 +96,6 @@ function correctGrammar(input) {
 }
 
 function summarizeText(input) {
-    // Naive summarization: return first 2 sentences or first 150 chars
     const sentences = input.match(/[^.!?]+[.!?]*/g) || [input];
     let out = sentences.slice(0, 2).join(" ").trim();
     if (out.length === 0) out = input.slice(0, 150) + (input.length > 150 ? "..." : "");
@@ -108,7 +103,6 @@ function summarizeText(input) {
 }
 
 function rewriteText(input) {
-    // Very simple rewrite: replace some words with simpler synonyms and shorten long sentences
     let s = input;
     s = s.replace(/\butilize\b/gi, "use");
     s = s.replace(/\bdoes not\b/gi, "doesn't");
@@ -116,36 +110,30 @@ function rewriteText(input) {
     s = s.replace(/\bmoreover\b/gi, "also");
     s = s.replace(/\bconsequently\b/gi, "so");
 
-    // break overly long comma-separated parts
     s = s.replace(/,([^,]{80,})/g, ". $1");
     if (s.length > 800) s = s.slice(0, 800) + "...";
     return s;
 }
 
 function explainText(input) {
-    // Produce a sentence-by-sentence explanation (very simple)
     const sentences = input.match(/[^.!?]+[.!?]*/g) || [input];
-    const explanations = sentences.map((sent, i) => {
+    return sentences.map((sent, i) => {
         const trimmed = sent.trim();
         if (!trimmed) return "";
         return `${i+1}. "${trimmed}" — This sentence means: ${trimmed.replace(/^[A-Z]/,'').trim()}.`;
-    });
-    return explanations.join("\n\n");
+    }).join("\n\n");
 }
 
 function improveClarity(input) {
-    // Fix spacing around punctuation, ensure sentence capitalization, remove repeated spaces
     let out = input.replace(/\s+([.,!?;:])/g, "$1");
     out = out.replace(/([.,!?;:])([^\s])/g, "$1 $2");
     out = out.replace(/\s{2,}/g, " ");
-    out = out.replace(/(^\s*\w|[.!?]\s*\w)/g, function(c){ return c.toUpperCase(); });
-    // Replace ambiguous contractions for clarity only when helpful
+    out = out.replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
     out = out.replace(/\bhe's\b/gi, "he is").replace(/\bshe's\b/gi, "she is");
     return out;
 }
 
 function convertText(input) {
-    // Convert paragraphs into numbered points (simple)
     const sentences = input.match(/[^.!?]+[.!?]*/g) || [input];
     const points = sentences.map(s => s.trim()).filter(Boolean);
     if (points.length === 0) return input;
@@ -153,7 +141,6 @@ function convertText(input) {
 }
 
 function analyzeText(input) {
-    // Basic analysis: word count, sentence count, most common words
     const words = input.toLowerCase().match(/\b[a-z']+\b/g) || [];
     const wordCount = words.length;
     const sentences = input.match(/[^.!?]+[.!?]*/g) || [];
